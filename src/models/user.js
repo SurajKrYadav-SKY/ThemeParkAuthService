@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Role = require("./role");
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,6 +10,17 @@ const userSchema = new mongoose.Schema(
     image: { String, required: false },
     color: { Number, required: false },
     profileSetup: { Boolean, default: false },
+    role: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Role",
+      required: true,
+      default: async () => {
+        // Ensure the default roles are created before setting the default role
+        await Role.ensureDefaultRoles(); // Ensure that the roles exist
+        const customerRole = await Role.findOne({ name: "Customer" });
+        return customerRole._id; // Set default role to Customer
+      },
+    },
   },
   { timestamps: true }
 );
