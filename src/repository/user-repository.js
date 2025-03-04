@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { unlink } = require("fs/promises");
 
 class UserRepository {
   async createUser(user) {
