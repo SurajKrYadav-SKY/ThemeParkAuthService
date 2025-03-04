@@ -2,12 +2,12 @@ const User = require("../models/user");
 const { unlink } = require("fs/promises");
 
 class UserRepository {
-  async createUser(user) {
+  async createUser(data) {
     try {
-      const user = await User.create(user);
+      const user = await User.create(data);
       return user;
     } catch (error) {
-      console.log("Something went wrong in the repository layer.");
+      console.log("Something went wrong in the repository layer.", error);
       throw error;
     }
   }

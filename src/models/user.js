@@ -6,27 +6,46 @@ const { SECRET_KEY, SALT } = require("../config/serverConfig");
 
 const userSchema = new mongoose.Schema(
   {
-    email: { String, required: [true, "Email is required"], unique: true },
-    password: { String, required: [true, "Password is required"] },
-    firstName: { String, required: false },
-    lastName: { String, required: false },
-    image: { String, required: false },
-    color: { Number, required: false },
-    profileSetup: { Boolean, default: false },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    password: { type: String, required: [true, "Password is required"] },
+    firstName: { type: String, required: false },
+    lastName: { type: String, required: false },
+    image: { type: String, required: false },
+    color: { type: Number, required: false },
+    profileSetup: { type: Boolean, default: false },
     role: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Role",
       required: true,
-      default: async () => {
-        // Ensure the default roles are created before setting the default role
-        await Role.ensureDefaultRoles(); // Ensure that the roles exist
-        const customerRole = await Role.findOne({ name: "Customer" });
-        return customerRole._id; // Set default role to Customer
-      },
     },
   },
   { timestamps: true }
 );
+
+userSchema.pre("validate", async function (next) {
+  try {
+    // Only set role if it’s not already defined (e.g., for new users)
+    if (!this.role && this.isNew) {
+      let customerRole = await Role.findOne({ name: "Customer" });
+
+      if (!customerRole) {
+        // If "Customer" role doesn’t exist, create it
+        customerRole = new Role({ name: "Customer" });
+        await customerRole.save();
+      }
+
+      this.role = customerRole._id; // Assign the role ID
+    }
+    next(); // Proceed to the next middleware
+  } catch (error) {
+    console.error("Error in role assignment:", error);
+    next(error); // Pass any errors to Mongoose
+  }
+});
 
 userSchema.pre("save", function (next) {
   const user = this;
