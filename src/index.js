@@ -3,8 +3,9 @@ const connect = require("./config/db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const { PORT, ORIGIN } = require("./config/serverConfig");
+const { PORT, ORIGIN, PROFILE_UPLOAD_DIR } = require("./config/serverConfig");
 const apiRoutes = require("./routes/index");
+const path = require("path");
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads/profiles", express.static(PROFILE_UPLOAD_DIR));
 
 app.use("/api", apiRoutes);
 
