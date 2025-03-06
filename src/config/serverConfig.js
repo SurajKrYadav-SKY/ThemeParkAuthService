@@ -8,6 +8,8 @@ module.exports = {
   ORIGIN: process.env.ORIGIN,
   SECRET_KEY: process.env.SECRET_KEY,
   SALT: process.env.SALT,
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  OPENAI_API_URL: process.env.OPENAI_API_URL,
   PROFILE_UPLOAD_DIR:
     process.env.PROFILE_UPLOAD_DIR ||
     path.join(__dirname, "uploads", "profiles"),
