@@ -3,7 +3,12 @@ const connect = require("./config/db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const { PORT, ORIGIN, PROFILE_UPLOAD_DIR } = require("./config/serverConfig");
+const {
+  PORT,
+  ORIGIN1,
+  PROFILE_UPLOAD_DIR,
+  ORIGIN2,
+} = require("./config/serverConfig");
 const apiRoutes = require("./routes/index");
 const path = require("path");
 
@@ -16,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: [ORIGIN],
+    origin: [ORIGIN1, ORIGIN2],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })

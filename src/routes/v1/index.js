@@ -10,7 +10,10 @@ const {
 const { verifyToken } = require("../../middlewares/auth-middleware");
 const { upload } = require("../../config/file-upload");
 const { createRole } = require("../../controller/role-controller");
-const { generateProfilePic } = require("../../controller/profile-controller");
+const {
+  generateProfilePic,
+  huggingFaceGeneratePic,
+} = require("../../controller/profile-controller");
 const router = express.Router();
 
 const profileUpload = upload.single("profile-image");
@@ -28,8 +31,9 @@ router.delete("/remove-profile-image", verifyToken, removeProfilePic);
 
 router.post("/role", createRole);
 
-// open ai api route
+// image generation api route
 
-router.post("/gen-profile-pic", generateProfilePic);
+router.post("/open-ai-gen-pic", generateProfilePic);
+router.post("/hugging-face-gen-pic", huggingFaceGeneratePic);
 
 module.exports = router;
