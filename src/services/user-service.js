@@ -45,7 +45,6 @@ class UserService {
       if (!user) {
         throw new Error("User not found");
       }
-
       const isPasswordCorrect = user.comparePassword(data.password);
       if (!isPasswordCorrect) {
         throw new Error("Incorrect password");
