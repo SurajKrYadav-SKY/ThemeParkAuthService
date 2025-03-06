@@ -10,7 +10,7 @@ const {
 const { verifyToken } = require("../../middlewares/auth-middleware");
 const { upload } = require("../../config/file-upload");
 const { createRole } = require("../../controller/role-controller");
-const { generateProfile } = require("../../controller/profile-controller");
+const { generateProfilePic } = require("../../controller/profile-controller");
 const router = express.Router();
 
 const profileUpload = upload.single("profile-image");
@@ -30,6 +30,6 @@ router.post("/role", createRole);
 
 // open ai api route
 
-router.post("/gen-profile-pic", generateProfile);
+router.post("/gen-profile-pic", generateProfilePic);
 
 module.exports = router;

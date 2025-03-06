@@ -1,27 +1,34 @@
 const axios = require("axios");
 const { OPENAI_API_KEY, OPENAI_API_URL } = require("../config/serverConfig");
 
-const generateProfilePic = async (desc) => {
-  try {
-    const response = await axios.post(
-      OPENAI_API_URL,
-      {
-        prompt: desc,
-        n: 1,
-        size: "512x512",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-          "Content-Type": "application/json",
+class GenerateProfile {
+  async generateProfilePic(desc) {
+    try {
+      console.log("inside the service : ", desc.description);
+      const response = await axios.post(
+        OPENAI_API_URL,
+        {
+          model: "dall-e-3",
+          prompt: desc.description,
+          n: 1,
+          size: "1024x1024",
         },
-      }
-    );
-    return response;
-  } catch (error) {
-    console.log("Failed to genetate Profile Picture.", error);
-    throw error;
+        {
+          headers: {
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error(
+        "Failed to generate Profile Picture:",
+        error.response?.data || error.message
+      );
+      throw new Error("Profile picture generation failed.");
+    }
   }
-};
+}
 
-module.exports = { generateProfilePic };
+module.exports = GenerateProfile;

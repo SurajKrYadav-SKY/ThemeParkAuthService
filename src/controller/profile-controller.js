@@ -1,9 +1,11 @@
-const { generateProfilePic } = require("../services/profile-service");
+const GenerateProfile = require("../services/profile-service");
 
-const generateProfile = async (req, res) => {
+const generateProfile = new GenerateProfile();
+
+const generateProfilePic = async (req, res) => {
   try {
-    const { desc } = req.body;
-    const response = await generateProfilePic(desc);
+    console.log("inside the controller : ", req.body);
+    const response = await generateProfile.generateProfilePic(req.body);
 
     if (
       !response ||
@@ -33,5 +35,5 @@ const generateProfile = async (req, res) => {
 };
 
 module.exports = {
-  generateProfile,
+  generateProfilePic,
 };
