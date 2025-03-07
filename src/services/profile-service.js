@@ -40,7 +40,6 @@ class GenerateProfile {
       Authorization: `Bearer ${HF_API_TOKEN}`,
     };
     try {
-      console.log("Prompt : ", prompt);
       const response = await axios.post(
         HF_API_URL,
         { inputs: prompt },
