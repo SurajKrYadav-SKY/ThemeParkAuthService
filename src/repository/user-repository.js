@@ -22,6 +22,16 @@ class UserRepository {
     }
   }
 
+  async getUserByUserId(userId) {
+    try {
+      const user = await User.findById(userId, "firstName email");
+      return user;
+    } catch (error) {
+      console.log("Something went wrong in the repository layer.");
+      throw error;
+    }
+  }
+
   async updateUser(userId, data) {
     try {
       const { firstName, lastName, color } = data;

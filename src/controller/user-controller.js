@@ -160,9 +160,27 @@ const removeProfilePic = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const response = await userService.getUserByUserId(req.params.id);
+    res.status(200).json({
+      data: response,
+      success: true,
+      message: "Successfully fetched the user",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Something went wrong.",
+      error: error.message || {},
+    });
+  }
+};
+
 module.exports = {
   signup,
   login,
+  getUser,
   getUserInfo,
   updateProfile,
   addProfilePic,

@@ -2,6 +2,7 @@ const express = require("express");
 const {
   signup,
   login,
+  getUser,
   getUserInfo,
   updateProfile,
   addProfilePic,
@@ -22,6 +23,7 @@ const profileUpload = upload.single("profile-image");
 
 router.post("/signup", signup);
 router.post("/login", login);
+router.get("/users/:id", getUser);
 router.get("/user-info", verifyToken, getUserInfo);
 router.post("/update-profile", verifyToken, updateProfile);
 router.post("/add-profile-image", verifyToken, profileUpload, addProfilePic);
